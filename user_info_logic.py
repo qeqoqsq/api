@@ -3,7 +3,7 @@ from db import get_connection
 from datetime import datetime, timezone
 from fastapi import HTTPException, status
 
-async def get_user_info(data: models.CheckSubscriptionStatus):
+async def get_user_info(data: models.GetUserInfo):
     # Подключаемся к БД
     with get_connection() as conn:
         cursor = conn.cursor()

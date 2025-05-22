@@ -68,7 +68,7 @@ async def confirm_code(request: models.CodeConfirmRequest):
     return await email_messages.confirm_code(request)
 
 @router.post("/get-user-info")
-async def get_user_info(request: models.CheckSubscriptionStatus):
+async def get_user_info(request: models.GetUserInfo):
     print("get-user-info")
     return await user_info_logic.get_user_info(request)
 

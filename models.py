@@ -22,6 +22,9 @@ class KeyActivateRequest(BaseModel):
     key_value: str
     user_id: int
 
+class GetUserInfo(BaseModel):
+    user_id: int
+
 class CheckSubscriptionStatus(BaseModel):
     user_id: int
     token: str
