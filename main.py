@@ -6,7 +6,7 @@ from fastapi.responses import FileResponse
 
 app = FastAPI()
 
-version_number: str = "1.2.1"
+version_number: str = "1.2.2"
 
 @app.get("/")
 async def root():
