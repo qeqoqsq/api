@@ -32,10 +32,10 @@ async def get_subscription_status(data: models.CheckSubscriptionStatus):
                 # Вставляем или обновляем
                 cursor.execute(
                     """
-                    INSERT INTO launch_tokens (user_id, token, issued_at, expires_at)
+                    INSERT INTO launch_tokens (userId, token, issuedAt, expiresAt)
                     VALUES (%s, %s, now(), %s)
-                    ON CONFLICT (user_id) DO UPDATE
-                    SET token = EXCLUDED.token, issued_at = now(), expires_at = EXCLUDED.expires_at
+                    ON CONFLICT (userId) DO UPDATE
+                    SET token = EXCLUDED.token, issuedAt = now(), expiresAt = EXCLUDED.expiresAt
                     """,
                     (data.user_id, launch_token, expires_at)
                 )
