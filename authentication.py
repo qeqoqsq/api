@@ -1,13 +1,12 @@
 import models
-import key_logic
 from db import get_connection
 import other_functions
 from fastapi import HTTPException, status
 from datetime import datetime, timedelta, timezone
 import uuid
-
 from models import TokenCheckRequest
 
+MSK = timezone(timedelta(hours=3))
 
 async def register_user(data: models.RegisterData):
     # Подключаемся к БД
@@ -52,7 +51,7 @@ async def login_user(data: models.LoginData):
         if not other_functions.verify_password(data.password, stored_hash):
             raise HTTPException(status_code=401, detail="Invalid password")
 
-        created_at = datetime.now(timezone.utc)
+        created_at = datetime.now(MSK)
         expires_at = created_at + timedelta(days=7)
 
         # Генерируем уникальный токен

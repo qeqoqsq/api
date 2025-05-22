@@ -1,7 +1,8 @@
 import models
 from db import get_connection
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from fastapi import HTTPException, status
+MSK = timezone(timedelta(hours=3))
 
 async def get_user_info(data: models.GetUserInfo):
     # Подключаемся к БД
@@ -28,7 +29,7 @@ async def get_user_info(data: models.GetUserInfo):
     user_login, user_ipaddress, user_email, end_date= result
     subscribe_status = False
     if end_date is not None:
-        subscribe_status = end_date > datetime.now(timezone.utc).date()
+        subscribe_status = end_date > datetime.now(MSK).date()
     else: end_date = "Подписка не оформлена"
     print("Запрос сделан, переменные получены")
     print(f"Пользователь: login - {user_login}, user_ipaddress - {user_ipaddress}, email - {user_email}, end_date - {end_date}, subscribe_status - {subscribe_status}")

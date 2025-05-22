@@ -4,13 +4,15 @@ from datetime import datetime, timezone, timedelta
 from fastapi import HTTPException
 from db import get_connection
 
+MSK = timezone(timedelta(hours=3))
+
 async def create_license_key(data: models.KeyCreateRequest):
     duration = data.key_duration
     if duration not in [1, 7, 30, 180]:
         raise HTTPException(status_code=400, detail="Invalid key type")
 
     key_string = other_functions.generate_activation_key()
-    created_at = datetime.now(timezone.utc)
+    created_at = datetime.now(MSK)
 
     with get_connection() as conn:
         cursor = conn.cursor()
@@ -36,12 +38,12 @@ async def activate_license_key(data: models.KeyActivateRequest):
         cursor = conn.cursor()
 
     keyid, duration_days = get_key_info(cursor, data.key_value)
-    now = datetime.now(timezone.utc)
+    now = datetime.now(MSK)
     subscription = get_subscription(cursor, data.user_id)
 
     if subscription:
         subscriptionid, startdate, enddate = subscription
-        now = datetime.now().date()
+        now = datetime.now(MSK).date()
         if enddate and enddate > now:
             # Продлить с текущей даты окончания
             new_startdate = startdate  # можно оставить старую дату начала
