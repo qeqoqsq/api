@@ -26,7 +26,10 @@ async def get_subscription_status(data: models.CheckSubscriptionStatus):
             end_date = row[0]
             print(f"end_date из базы: {end_date}, тип: {type(end_date)}")
             print(f"сравниваем с: {datetime.now(timezone.utc).date()}, тип: {type(datetime.now(timezone.utc).date())}")
-
+            print(
+                f"end_date = {end_date}, now = {datetime.now(timezone.utc).date()}, сравнение = {end_date >= datetime.now(timezone.utc).date()}")
+            today = datetime.now(timezone.utc).date()
+            print(f"today: {today}")
             if end_date >= datetime.now(timezone.utc).date():
                 print(">=")
                 # Создание launch_token
