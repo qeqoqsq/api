@@ -27,7 +27,8 @@ async def get_subscription_status(data: models.CheckSubscriptionStatus):
             print(f"end_date из базы: {end_date}, тип: {type(end_date)}")
             print(f"сравниваем с: {datetime.now(timezone.utc).date()}, тип: {type(datetime.now(timezone.utc).date())}")
 
-            if end_date > datetime.now(timezone.utc).date():
+            if end_date >= datetime.now(timezone.utc).date():
+                print(">=")
                 # Создание launch_token
                 launch_token = str(uuid.uuid4())
                 expires_at = datetime.now(timezone.utc) + timedelta(hours=1)
@@ -46,6 +47,7 @@ async def get_subscription_status(data: models.CheckSubscriptionStatus):
 
                 return {"launch_token": launch_token}
             else:
+                print("<=")
                 raise HTTPException(status_code=403, detail="Подписка неактивна")
 
         except Exception as e:
