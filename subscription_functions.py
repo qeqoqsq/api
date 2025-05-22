@@ -4,8 +4,6 @@ from fastapi import HTTPException
 from db import get_connection
 import models
 
-MSK = timezone(timedelta(hours=3))
-
 async def get_subscription_status(data: models.CheckSubscriptionStatus):
     with get_connection() as conn:
         cursor = conn.cursor()
@@ -34,7 +32,7 @@ async def get_subscription_status(data: models.CheckSubscriptionStatus):
             end_date = row[0]
             print(f"end_date из базы: {end_date}, тип: {type(end_date)}")
 
-            now_msk = datetime.now(MSK)
+            now_msk = datetime.now(timezone.utc)
             today_msk = now_msk.date()
 
             print(f"Текущее МСК время: {now_msk} (тип: {type(now_msk)})")

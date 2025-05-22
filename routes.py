@@ -20,10 +20,10 @@ async def get_subscriptions():
     print("get subscriptions")
     return await get_tables.get_subscriptions()
 
-@router.get("/license-keys")
-async def get_license_keys():
-    print("get license-keys")
-    return await get_tables.get_license_keys()
+# @router.get("/license-keys")
+# async def get_license_keys():
+#     print("get license-keys")
+#     return await get_tables.get_license_keys()
 
 @router.post("/check-unique-login")
 async def check_unique_login(request: models.CheckUniqueLogin):

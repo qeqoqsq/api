@@ -1,8 +1,7 @@
 import models
-import key_logic
 from db import get_connection
 import other_functions
-from fastapi import HTTPException, status
+from fastapi import HTTPException
 
 
 async def change_user_password(data: models.ChangePassword):
