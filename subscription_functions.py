@@ -24,6 +24,9 @@ async def get_subscription_status(data: models.CheckSubscriptionStatus):
                 raise HTTPException(status_code=404, detail="Подписка не найдена")
 
             end_date = row[0]
+            print(f"end_date из базы: {end_date}, тип: {type(end_date)}")
+            print(f"сравниваем с: {datetime.now(timezone.utc).date()}, тип: {type(datetime.now(timezone.utc).date())}")
+
             if end_date > datetime.now(timezone.utc).date():
                 # Создание launch_token
                 launch_token = str(uuid.uuid4())
