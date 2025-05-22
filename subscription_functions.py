@@ -34,17 +34,17 @@ async def get_subscription_status(data: models.CheckSubscriptionStatus):
                 print(">=")
                 # Создание launch_token
                 launch_token = str(uuid.uuid4())
-                expires_at = datetime.now(timezone.utc) + timedelta(hours=1)
+                issued_at = datetime.now(timezone.utc)
+                expires_at = issued_at + timedelta(hours=1)
 
-                # Вставляем или обновляем
                 cursor.execute(
                     """
                     INSERT INTO launch_tokens (userId, token, issuedAt, expiresAt)
-                    VALUES (%s, %s, now(), %s)
+                    VALUES (%s, %s, %s, %s)
                     ON CONFLICT (userId) DO UPDATE
-                    SET token = EXCLUDED.token, issuedAt = now(), expiresAt = EXCLUDED.expiresAt
+                    SET token = EXCLUDED.token, issuedAt = EXCLUDED.issuedAt, expiresAt = EXCLUDED.expiresAt
                     """,
-                    (data.user_id, launch_token, expires_at)
+                    (data.user_id, launch_token, issued_at, expires_at)
                 )
                 conn.commit()
 
