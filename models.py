@@ -29,6 +29,11 @@ class CheckSubscriptionStatus(BaseModel):
     user_id: int
     token: str
 
+class CheckValidLaunchToken(BaseModel):
+    user_id: int
+    sub_token: str
+    launch_token: str
+
 class EmailRequest(BaseModel):
     email: EmailStr
 

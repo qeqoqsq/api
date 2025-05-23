@@ -68,3 +68,32 @@ async def get_subscription_status(data: models.CheckSubscriptionStatus):
 
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"DB error: {str(e)}")
+
+
+async def check_valid_launch_token(data: models.CheckValidLaunchToken):
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        try:
+            cursor.execute(
+                """
+                select lt.expiresAt
+                from launch_tokens lt
+                join tokens t on lt.userId = t.userId
+                where t.userId = %s and t.token = %s and lt.token = %s
+                """,
+                (data.user_id, data.sub_token, data.launch_token)
+            )
+
+            row = cursor.fetchone()
+
+            if row is None:
+                raise HTTPException(status_code=404, detail="Пользователь с таким токеном не найден")
+
+            expires_at = row
+
+            if datetime.now(timezone.utc) < expires_at:
+                print(f"Токен рабочий: {expires_at}")
+                return;
+            else:  print(f"Токен нерабочий: {expires_at}")
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"DB error: {str(e)}")

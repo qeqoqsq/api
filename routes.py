@@ -81,3 +81,8 @@ async def change_user_password(request: models.ChangePassword):
 async def validate_token(request: models.TokenCheckRequest):
     print("validate-token")
     return await authentication.validate_token(request)
+
+@router.post("/check-valid-launch-token")
+async def check_valid_launch_token(request: models.CheckValidLaunchToken):
+    print("check-valid-launch-token")
+    return await subscription_functions.check_valid_launch_token(request)
