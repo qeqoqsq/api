@@ -90,7 +90,7 @@ async def check_valid_launch_token(data: models.CheckValidLaunchToken):
             if row is None:
                 raise HTTPException(status_code=404, detail="Пользователь с таким токеном не найден")
             print(f"row not none")
-            expires_at = row
+            expires_at = row[0]
 
             if datetime.now(timezone.utc) < expires_at:
                 print(f"Токен рабочий: {expires_at}")
