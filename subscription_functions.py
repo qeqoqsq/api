@@ -94,7 +94,7 @@ async def check_valid_launch_token(data: models.CheckValidLaunchToken):
 
             if datetime.now(timezone.utc) < expires_at:
                 print(f"Токен рабочий: {expires_at}")
-                return;
+                return
             else:  print(f"Токен нерабочий: {expires_at}")
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"DB error: {str(e)}")
