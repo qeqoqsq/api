@@ -73,6 +73,7 @@ async def get_subscription_status(data: models.CheckSubscriptionStatus):
 async def check_valid_launch_token(data: models.CheckValidLaunchToken):
     with get_connection() as conn:
         cursor = conn.cursor()
+        print(f"check try")
         try:
             cursor.execute(
                 """
@@ -83,12 +84,12 @@ async def check_valid_launch_token(data: models.CheckValidLaunchToken):
                 """,
                 (data.user_id, data.sub_token, data.launch_token)
             )
-
+            print(f"query")
             row = cursor.fetchone()
 
             if row is None:
                 raise HTTPException(status_code=404, detail="Пользователь с таким токеном не найден")
-
+            print(f"row not none")
             expires_at = row
 
             if datetime.now(timezone.utc) < expires_at:
