@@ -4,7 +4,7 @@ from fastapi.responses import FileResponse
 
 app = FastAPI()
 
-version_number: str = "1.4.0"
+version_number: str = "1.4.1"
 
 @app.get("/")
 async def root():
